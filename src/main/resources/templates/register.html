@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   
+<head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="Askbootstrap">
+      <meta name="author" content="Askbootstrap">
+      <title>MUZI-K</title>
+      <!-- Favicon Icon -->
+      <link rel="icon" type="image/png" href="img/favicon.png">
+      <!-- Bootstrap core CSS-->
+      <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom fonts for this template-->
+      <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <!-- Custom styles for this template-->
+      <link href="css/osahan.css" rel="stylesheet">
+      <!-- Owl Carousel -->
+      <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+      <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="js/jquery-3.6.0.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script>
+		$(function() {
+			$('form').on('submit', function() {
+				if ($('#u_pw').val() != $('#u_pw_ck').val()) {
+					alert("비밀번호와 비밀번호(확인)의 값이 서로 일치하지 않습니다.\n확인 후 다시 입력해 주세요.");
+					$('#u_pw').val('');
+					$('#u_pw_ck').val('');
+					$('#u_pw').focus();
+					return false;
+				}
+				else{
+			        return true;
+				}
+			});
+		});
+	  </script>
+</head>
+   <body class="login-main-body">
+      <section class="login-main-wrapper">
+         <div class="container-fluid pl-0 pr-0">
+            <div class="row no-gutters">
+               <div class="col-md-5 p-5 bg-white full-height">
+                  <div class="login-main-left">
+                     <div class="text-center mb-5 login-main-left-header pt-4">
+                        <img src="img/favicon.png" class="img-fluid" alt="LOGO">
+                        <h5 class="mt-3 mb-3">오신 것을 환영합니다.</h5>
+                        <p>귀가 즐거울 수 있는 곳 <br> MUZI-K </p>
+                     </div>
+                     <form name="userForm" action="userForm" method="post">
+                     	<div class="form-group">
+                           <label>아이디 <span class="required">*</span></label>
+                           <input type="text" class="form-control" name="u_id" id="u_id" placeholder="아이디를 입력해주세요." th:value="${dto == null ? '':dto.u_id}">
+                           <button type="button" class="btn btn-light border-none" id="idCheck" onclick="fn_idCheck()" style="font-size:15px; padding:5px 5px">중복 확인</button>
+                           <span>[[${valid_u_id}]]</span>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label>비밀번호 <span class="required">*</span></label>
+                           <input type="password" class="form-control" name="u_pw" id="u_pw" placeholder="비밀번호를 입력해주세요." th:value="${dto == null ? '':dto.u_pw}">
+                           <span>[[${valid_u_pw}]]</span>
+                        </div>
+                        <div class="form-group">
+                           <label>비밀번호 확인 <span class="required">*</span></label>
+                           <input type="password" class="form-control" name="u_pw_ck" id="u_pw_ck" placeholder="비밀번호를 다시 한번 입력해주세요." th:value="${dto == null ? '':dto.u_pw}">
+                           <span>[[${valid_u_pw}]]</span>
+                        </div>
+                        <div class="form-group">
+                           <label>e-mail <span class="required">*</span></label>
+                           <input type="email" class="form-control" name="u_email" placeholder="이메일을 입력해주세요." th:value="${dto == null ? '':dto.u_email}">
+                           <span>[[${valid_u_email}]]</span>
+                        </div>
+                        <div class="form-group">
+                           <label>닉네임 <span class="required">*</span></label>
+                           <input type="text" class="form-control" name="u_nick" id="u_nick" placeholder="닉네임을 입력해주세요." th:value="${dto == null ? '':dto.u_nick}">
+                           <button type="button" class="btn btn-light border-none" id="nickCheck" onclick="fn_nickCheck()" style="font-size:15px; padding:5px 5px">중복 확인</button>
+                           <span>[[${valid_u_nick}]]</span>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label class="control-label">유형 <span class="required">*</span></label>
+                           <select  class="custom-select" name="u_type">
+                              <option value="">유형 선택</option>
+                              <option value="l">리스너</option>
+                              <option value="a">아티스트</option>
+                           </select>
+                           <span>[[${valid_u_type}]]</span>
+                        </div>
+                        <div class="mt-4">
+                           <button type="submit" class="btn btn-outline-primary btn-block btn-lg">회원가입</button>
+                        </div>
+                     </form>
+                     <div class="text-center mt-4">
+                        <p class="light-gray">이미 계정이 있으신가요? <a th:href="@{login}">로그인</a></p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-7">
+                  <div class="login-main-right bg-white p-5 mt-5 mb-5">
+                     <div class="owl-carousel owl-carousel-login">
+                        <div class="item">
+                           <div class="carousel-login-card text-center">
+                              <img src="img/login.png" class="img-fluid" alt="LOGO">
+                              <h5 class="mt-5 mb-3">​Watch videos offline</h5>
+                              <p class="mb-4">when an unknown printer took a galley of type and scrambled<br> it to make a type specimen book. It has survived not <br>only five centuries</p>
+                           </div>
+                        </div>
+                        <div class="item">
+                           <div class="carousel-login-card text-center">
+                              <img src="img/login.png" class="img-fluid" alt="LOGO">
+                              <h5 class="mt-5 mb-3">Download videos effortlessly</h5>
+                              <p class="mb-4">when an unknown printer took a galley of type and scrambled<br> it to make a type specimen book. It has survived not <br>only five centuries</p>
+                           </div>
+                        </div>
+                        <div class="item">
+                           <div class="carousel-login-card text-center">
+                              <img src="img/login.png" class="img-fluid" alt="LOGO">
+                              <h5 class="mt-5 mb-3">Create GIFs</h5>
+                              <p class="mb-4">when an unknown printer took a galley of type and scrambled<br> it to make a type specimen book. It has survived not <br>only five centuries</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- Bootstrap core JavaScript-->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+      <!-- Owl Carousel -->
+      <script src="vendor/owl-carousel/owl.carousel.js"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="js/custom.js"></script>
+      <script>
+      function fn_idCheck(){
+			$.ajax({
+				url: "/idCheck",
+				type: "POST",
+				dataType: "JSON",
+				data: {"u_id" : $("#u_id").val()},
+				success: function(data){
+					if(data == 1){
+						alert("중복된 아이디입니다.\n다시 입력해주세요.");
+					}
+					else if(data == 0){
+						alert("사용 가능한 아이디입니다.");
+					}
+				}
+			})
+		}
+      
+      function fn_nickCheck(){
+			$.ajax({
+				url: "/nickCheck",
+				type: "POST",
+				dataType: "JSON",
+				data: {"u_nick" : $("#u_nick").val()},
+				success: function(data){
+					if(data == 1){
+						alert("중복된 닉네임입니다.\n다시 입력해주세요.");
+					}
+					else if(data == 0){
+						alert("사용 가능한 닉네임입니다.");
+					}
+				}
+			})
+		}
+      </script>
+   </body>
+</html>

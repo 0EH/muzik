@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.simple.basic.recode.RecodeMapper">
+  <insert id = "recodeInsert">
+  	 insert into record (u_id, r_name, r_describe, r_rate, r_open, r_genre)
+  	 values(#{u_id}, #{r_name}, #{r_describe}, #{r_rate}, #{r_open}, #{r_genre})
+  </insert>
+  
+  <insert id = "recodeFileInsert">
+  	<!-- 셀렉트로 전달된 값을 int로 받고 r_num으로 저장하겠다 -->
+  	<selectKey resultType = "int" keyProperty="r_num" order ="BEFORE"> 
+  	select max(r_num) as r_num from record where r_name = #{r_name}
+  	</selectKey>
+  	insert into upload (r_path, r_file, r_image, r_num, r_name)
+  	values(#{r_path}, #{r_file},#{r_image},#{r_num},#{r_name})
+  </insert>
+  
+  <select id="recodeList1" resultType="RecodeDTO">
+  	select * from record
+  </select>
+  
+  <select id="recodeList2" resultType="UploadDTO">
+  	select * from upload
+  </select>
+  
+  <select id="recodeDetail1" resultType="RecodeDTO">
+  	select * from record where r_num = #{r_num}
+  </select>
+  
+  <select id="recodeDetail2" resultType="UploadDTO">
+  	select * from upload where r_num = #{r_num}
+  </select>
+  	
+  </mapper>

@@ -1,0 +1,72 @@
+CREATE TABLE user (
+   u_id    VARCHAR(50)  NOT NULL COMMENT '아이디', -- 아이디
+   u_pw    VARCHAR(50)  NOT NULL COMMENT '비밀번호', -- 비밀번호
+   u_email VARCHAR(100) NOT NULL COMMENT '이메일', -- 이메일
+   u_nick  VARCHAR(50)  NOT NULL COMMENT '닉네임', -- 닉네임
+   u_type  CHAR(1)      NOT NULL COMMENT '회원 유형' -- 회원 유형
+)
+COMMENT '회원';
+
+-- 회원
+ALTER TABLE user
+   ADD CONSTRAINT PK_user -- 회원 기본키
+      PRIMARY KEY (
+         u_id -- 아이디
+      );
+        
+        
+-- 음원
+CREATE TABLE record (
+   r_num       INT          auto_increment  primary key NOT NULL COMMENT '음원 번호', -- 음원 번호
+   u_id        VARCHAR(50)  NOT NULL COMMENT '아이디', -- 아이디
+   r_name      VARCHAR(100) NOT NULL COMMENT '음원명', -- 음원명
+   r_describe  VARCHAR(500) NULL     COMMENT '음원 설명', -- 음원 설명
+   r_rate      DECIMAL(3,2) NULL     COMMENT '음원 평점', -- 음원 평점
+    r_open      CHAR(1)       NOT NULL COMMENT '음원 공개 여부',
+    r_genre      VARCHAR(50)    NOT NULL COMMENT '음원 장르'
+)
+COMMENT '음원';
+
+        
+ALTER TABLE record
+   ADD CONSTRAINT FK_user_TO_record -- 회원 -> 음원
+      FOREIGN KEY (
+         u_id -- 아이디
+      )
+      REFERENCES user ( -- 회원
+         u_id -- 아이디
+      );
+      
+create table upload 
+(
+upload_no int primary key auto_increment,
+r_path varchar(200),
+r_file varchar(200),
+r_image varchar(200),
+r_num INT,
+r_name varchar(100)
+);
+
+
+CREATE TABLE `category` (
+   cat_num int NOT NULL auto_increment primary key ,
+   cat_name VARCHAR(50)
+);
+
+
+CREATE TABLE community(
+c_num INT auto_increment primary key NOT NULL,
+u_id VARCHAR(50) NOT NULL,
+c_title VARCHAR(50) NOT NULL,
+c_contents VARCHAR(500) NOT NULL,
+c_date TIMESTAMP DEFAULT NOW()
+);
+
+ALTER TABLE community
+   ADD CONSTRAINT FK_user_TO_community
+      FOREIGN KEY (
+         u_id
+      )
+      REFERENCES user ( 
+         u_id
+      );

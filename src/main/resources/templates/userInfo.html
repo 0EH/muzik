@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   
+   <head>
+   <style>
+   .btn1{
+	margin:auto;
+	}
+   </style>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="Askbootstrap">
+      <meta name="author" content="Askbootstrap">
+      <title>MUZI-K</title>
+      <!-- Favicon Icon -->
+      <link rel="icon" type="image/png" href="img/favicon.png">
+      <!-- Bootstrap core CSS-->
+      <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom fonts for this template-->
+      <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <!-- Custom styles for this template-->
+      <link href="css/osahan.css" rel="stylesheet">
+      <!-- Owl Carousel -->
+      <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+      <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+   </head>
+   <body id="page-top">
+      <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
+         &nbsp;&nbsp; 
+         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
+         <i class="fas fa-bars"></i>
+         </button> &nbsp;&nbsp;
+         <a class="navbar-brand mr-1" th:href="@{main}"><img class="img-fluid" alt="" src="img/logo.png"></a>
+         <!-- Navbar Search -->
+         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+            <div class="input-group">
+               <input type="text" class="form-control" placeholder="Search for...">
+               <div class="input-group-append">
+                  <button class="btn btn-light" type="button">
+                  <i class="fas fa-search"></i> 
+                  </button>
+               </div>
+            </div>
+         </form>
+         <!-- Navbar -->
+         <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
+            <li th:if="${session.user != null} and ${session.user.u_type} == 'a'" class="nav-item mx-1">
+               <a class="nav-link" th:href="@{recodeInsert}">
+               <i class="fas fa-plus-circle fa-fw"></i>
+               음악 업로드
+               </a>
+            </li>
+            <li class="nav-item dropdown no-arrow mx-1">
+               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-bell fa-fw"></i>
+               <span class="badge badge-danger"></span>
+               </a>
+               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
+                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
+               </div>
+            </li>
+            <li class="nav-item dropdown no-arrow mx-1">
+               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-envelope fa-fw"></i>
+               <span class="badge badge-success"></span>
+               </a>
+               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
+                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
+               </div>
+            </li>
+            <li th:if="${session.user == null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
+               <a class="nav-link dropdown-toggle user-dropdown-link" th:href="@{login}">
+               로그인
+               </a>
+            </li>
+            
+            <li th:if="${session.user == null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
+               <a class="nav-link dropdown-toggle user-dropdown-link" th:href="@{signUp}">
+               회원가입
+               </a>
+            </li>
+            
+            <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
+               <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <img alt="Avatar" src="img/user.png">
+               [[${session.user.u_nick}]]
+               </a>
+               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+               <form action ="mypageForm" method ="post">
+               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
+                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
+               </form>
+                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
+                  <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
+               </div>
+            </li>
+         </ul>
+      </nav>
+      <div id="wrapper">
+         <!-- Sidebar -->
+         <ul class="sidebar navbar-nav">
+            <li class="nav-item active">
+               <a class="nav-link" th:href="@{main}">
+               <i class="fas fa-fw fa-home"></i>
+               <span>Home</span>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" th:href="@{artistList}">
+               <i class="fas fa-fw fa-users"></i>
+               <span>아티스트</span>
+               </a>
+            </li>
+            <li th:if="${session.user != null} and ${session.user.u_type} == 'a'" class="nav-item">
+               <a class="nav-link" th:href="@{recodeInsert}">
+               <i class="fas fa-fw fa-cloud-upload-alt"></i>
+               <span>음악 업로드</span>
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" th:href="@{playlist}">
+               <i class="fas fa-fw fa-history"></i>
+               <span>플레이리스트</span>
+               </a>
+            </li>
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-fw fa-list-alt"></i>
+               <span>장르</span>
+               </a>
+               <div class="dropdown-menu">
+                  <a th:each="dto : ${list3}" class="dropdown-item" th:href="@{recodeList(cat_name=${dto.cat_name})}">[[${dto.cat_name}]]</a>
+               </div>
+            </li>
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" th:href="@{communityList}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-fw fa-history"></i>
+               <span>커뮤니티</span>
+               </a>
+               <div class="dropdown-menu">
+                  <a class="dropdown-item" th:href="@{communityList}">모든 게시글</a>
+                  <a th:if="${session.user != null}" class="dropdown-item" th:href="@{communityMypost(u_id=${session.user.u_id})}">나의 게시글</a>
+               </div>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+               <h6>장르별 카테고리</h6>
+               <ul>
+                  <li>
+                     <a href="subscriptions.html">
+                     <img class="img-fluid" alt="" src="img/s1.png"> 힙합/랩
+                     </a>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+
+         <div id="content-wrapper">
+         
+            <div class="container-fluid upload-details">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="main-title">
+                        <h6>회원정보관리</h6>
+                     </div>
+                  </div>
+               </div>
+               <form name="actionForm" method="post">
+                  <div class="row">
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label class="control-label">아이디 <span class="required">*</span></label>
+                           <input class="form-control border-form-control" name="u_id" th:value="${session.user.u_id}" type="text" readonly="readonly">
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label class="control-label">닉네임 <span class="required">*</span></label>
+                           <input class="form-control border-form-control" name="u_nick" th:value="${session.user.u_nick}" type="text">
+                        </div>
+                     </div>
+                  </div>
+                  
+                  <div class="row">
+                  	<div class="col-sm-6">
+                        <div class="form-group">
+                           <label class="control-label">이메일 <span class="required">*</span></label>
+                           <input class="form-control border-form-control" name="u_email" th:value="${session.user.u_email}" type="text">
+                        </div>
+                     </div>
+                     
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label class="control-label">유형 <span class="required">*</span></label>
+                           <select  class="custom-select" name="u_type">
+                              <option value="">유형을 선택하세요.</option>
+                              <option value="l" th:selected="${session.user.u_type} == 'l'">리스너</option>
+                              <option value="a" th:selected="${session.user.u_type} == 'a'">아티스트</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label class="control-label">비밀번호 <span class="required">*</span></label>
+                           <input class="form-control border-form-control" name="u_pw" th:value="${session.user.u_pw}" type="text">
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                           <label class="control-label"><span class="required"></span></label>
+                           <input class="form-control border-form-control" type="text" readonly="readonly">
+                        </div>
+                     </div>
+                     <div class="btn1">
+		                 <button type="button" class="btn btn-outline-primary" th:onclick="|user_update()|">정보 수정</button>
+		                 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#deleteModal" >회원 탈퇴</button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+            
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+               <div class="container">
+                  <div class="row no-gutters">
+                     <div class="col-lg-6 col-sm-6">
+                     </div>
+                     <div class="col-lg-6 col-sm-6 text-right">
+                        <div class="app">
+                           <a href="#"><img alt="" src="img/google.png"></a>
+                           <a href="#"><img alt="" src="img/apple.png"></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </footer>
+         </div>
+         
+         <!-- /.content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+      </a>
+      <!-- Logout Modal-->
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                  </button>
+               </div>
+               <div class="modal-body">로그아웃을 원하시면 로그아웃 버튼을 눌러주세요.</div>
+               <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                  <a class="btn btn-primary" href="logout">Logout</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- 회원 탈퇴 모달  -->
+      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">회원 탈퇴를 진행하시겠습니까?</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                  </button>
+               </div>
+               <div class="modal-body">회원 탈퇴를 원하시면 회원 탈퇴 버튼을 눌러주세요.</div>
+               <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                  <a class="btn btn-primary" style="color: white" th:onclick="|user_delete()|">회원 탈퇴</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Bootstrap core JavaScript-->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+      <!-- Owl Carousel -->
+      <script src="vendor/owl-carousel/owl.carousel.js"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="js/custom.js"></script>
+      
+      <script th:inline="javascript">
+			function user_update() {
+				event.preventDefault(); // 태그가 가진 기본 이벤트 중지
+				//폼 제어 -> JS에서는 form태그가 document의 자식
+				//document.폼이름.폼속성명
+				//console.log(document.actionForm);
+				document.actionForm.action = "userUpdate";
+				document.actionForm.method = "post";
+				document.actionForm.submit();
+			}
+		
+			function user_delete() {
+				event.preventDefault(); // 태그가 가진 기본 이벤트 중지
+				document.actionForm.action = "userDelete";
+				document.actionForm.method = "post";
+				document.actionForm.submit();
+			}
+		</script>
+   </body>
+
+
+</html>

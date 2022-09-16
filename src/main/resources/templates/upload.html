@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Askbootstrap">
+<meta name="author" content="Askbootstrap">
+<title>MUZI-K</title>
+<!-- Favicon Icon -->
+<link rel="icon" type="image/png" href="img/favicon.png">
+<!-- Bootstrap core CSS-->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<!-- Custom styles for this template-->
+<link href="css/osahan.css" rel="stylesheet">
+<!-- Owl Carousel -->
+<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+</head>
+<body id="page-top">
+	<nav
+		class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
+		&nbsp;&nbsp;
+		<button class="btn btn-link btn-sm text-secondary order-1 order-sm-0"
+			id="sidebarToggle">
+			<i class="fas fa-bars"></i>
+		</button>
+		&nbsp;&nbsp; <a class="navbar-brand mr-1" th:href="@{main}"><img
+			class="img-fluid" alt="" src="img/logo.png"></a>
+		<!-- Navbar Search -->
+		<form
+			class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for...">
+				<div class="input-group-append">
+					<button class="btn btn-light" type="button">
+						<i class="fas fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+		<!-- Navbar -->
+		<ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
+			<li th:if="${session.user != null} and ${session.user.u_type} == 'a'"
+				class="nav-item mx-1"><a class="nav-link"
+				th:href="@{recodeInsert}"> <i class="fas fa-plus-circle fa-fw"></i>
+					음악 업로드
+			</a></li>
+			<li class="nav-item dropdown no-arrow mx-1"><a
+				class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+				role="button" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <span
+					class="badge badge-danger"></span>
+			</a>
+				<div class="dropdown-menu dropdown-menu-right"
+					aria-labelledby="alertsDropdown">
+					<a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i>
+						&nbsp; Action</a> <a class="dropdown-item" href="#"><i
+						class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i>
+						&nbsp; Something else here</a>
+				</div></li>
+			<li class="nav-item dropdown no-arrow mx-1"><a
+				class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
+				role="button" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <span
+					class="badge badge-success"></span>
+			</a>
+				<div class="dropdown-menu dropdown-menu-right"
+					aria-labelledby="messagesDropdown">
+					<a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i>
+						&nbsp; Action</a> <a class="dropdown-item" href="#"><i
+						class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i>
+						&nbsp; Something else here</a>
+				</div></li>
+
+			<li th:if="${session.user == null}"
+				class="nav-item dropdown no-arrow osahan-right-navbar-user"><a
+				class="nav-link dropdown-toggle user-dropdown-link"
+				th:href="@{login}"> 로그인 </a></li>
+
+			<li th:if="${session.user == null}"
+				class="nav-item dropdown no-arrow osahan-right-navbar-user"><a
+				class="nav-link dropdown-toggle user-dropdown-link"
+				th:href="@{signUp}"> 회원가입 </a></li>
+
+			<li th:if="${session.user != null}"
+				class="nav-item dropdown no-arrow osahan-right-navbar-user"><a
+				class="nav-link dropdown-toggle user-dropdown-link" href="#"
+				id="userDropdown" role="button" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> <img alt="Avatar"
+					src="img/user.png"> [[${session.user.u_nick}]]
+			</a>
+				<div class="dropdown-menu dropdown-menu-right"
+					aria-labelledby="userDropdown">
+					<form action ="mypageForm" method ="post">
+	               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
+	                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
+	                </form> 
+	                <a class="dropdown-item" th:href="@{followList}"><i
+						class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a> <a
+						class="dropdown-item" th:href="@{userInfo}"><i
+						class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="#" data-toggle="modal"
+						data-target="#logoutModal"><i
+						class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
+				</div></li>
+		</ul>
+	</nav>
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav">
+			<li class="nav-item active"><a class="nav-link"
+				th:href="@{main}"> <i class="fas fa-fw fa-home"></i> <span>Home</span>
+			</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{artistList}">
+					<i class="fas fa-fw fa-users"></i> <span>아티스트</span>
+			</a></li>
+			<li th:if="${session.user != null} and ${session.user.u_type} == 'a'"
+				class="nav-item"><a class="nav-link" th:href="@{recodeInsert}">
+					<i class="fas fa-fw fa-cloud-upload-alt"></i> <span>음악 업로드</span>
+			</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{playlist}">
+					<i class="fas fa-fw fa-history"></i> <span>플레이리스트</span>
+			</a></li>
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="categories.html"
+				role="button" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"> <i class="fas fa-fw fa-list-alt"></i> <span>장르</span>
+			</a>
+				<div class="dropdown-menu">
+					<a th:each="dto : ${list3}" class="dropdown-item" th:href="@{recodeList(cat_name=${dto.cat_name})}">[[${dto.cat_name}]]</a>
+				</div></li>
+			<li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" th:href="@{communityList}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-fw fa-history"></i>
+               <span>커뮤니티</span>
+               </a>
+               <div class="dropdown-menu">
+                  <a class="dropdown-item" th:href="@{communityList}">모든 게시글</a>
+                  <a th:if="${session.user != null}" class="dropdown-item" th:href="@{communityMypost(u_id=${session.user.u_id})}">나의 게시글</a>
+               </div>
+            </li>
+			<li class="nav-item channel-sidebar-list">
+				<h6>장르별 카테고리</h6>
+				<ul>
+					<li><a href="subscriptions.html"> <img class="img-fluid"
+							alt="" src="img/s1.png"> 힙합/랩
+					</a></li>
+				</ul>
+			</li>
+		</ul>
+
+		<div id="content-wrapper">
+			<div class="container-fluid upload-details">
+				<form action="recodeForm" method="post"
+					enctype="multipart/form-data">
+					<!-- 이걸 어따놓지  강의 1시간 30분-->
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="main-title">
+								<h6>Upload</h6>
+							</div>
+						</div>
+						<div class="col-lg-2">
+						<p>음악 파일을 선택해 주세요 </p> 
+						<input type="file" name="r_file1"> 
+						</div>
+					</div>
+					<hr>
+					<div>
+						<p>이미지를 선택해 주세요 </p> 
+						<img id="preview" class="imgplace" style="width: 300px; height: 200px;" /> <br>
+						<input type="file" name="r_image1" onchange="readURL(this);">
+						
+
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="osahan-form">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="form-group">
+											<div th:if="${session.user != null}">
+												<input type="hidden" name="u_id" class="form-control"
+													th:value="${session.user.u_id}">
+											</div>
+											<label for="e1">타이틀</label> <input type="text"
+												placeholder="곡 제목을 입력해주세요." name="r_name" id="e1"
+												class="form-control">
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="e2">설명</label>
+											<textarea rows="3" id="e2" name="r_describe"
+												class="form-control" placeholder="곡 설명을 입력해주세요."></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="row"></div>
+								<div class="col-lg-3">
+									<div class="form-group">
+										<label for="e4">Privacy Settings</label> <select id="e4"
+											class="custom-select" name="r_open">
+											<option value="o">공개</option>
+											<option value="c">비공개</option>
+										</select>
+									</div>
+								</div>
+
+							</div>
+							<div class="row ">
+								<div class="col-lg-12">
+									<div class="main-title">
+										<h6>Category</h6>
+									</div>
+								</div>
+							</div>
+							<div class="row category-checkbox">
+								<!-- checkbox 1col -->
+								<div class="col-lg-2 col-xs-6 col-4">
+									<div class="custom-control">
+										<input type="radio" class="custom-control-input"
+											id="customCheck1" name="r_genre" value="랩/힙합"> <label
+											class="custom-control-label" for="customCheck1">랩/힙합</label>
+									</div>
+									<div class="custom-control">
+										<input type="radio" class="custom-control-input"
+											id="customCheck2" name="r_genre" value="발라드"> <label
+											class="custom-control-label" for="customCheck2">발라드</label>
+									</div>
+									<div class="custom-control">
+										<input type="radio" class="custom-control-input"
+											id="customCheck3" name="r_genre" value="밴드"> <label
+											class="custom-control-label" for="customCheck3">밴드</label>
+									</div>
+									<div class="custom-control">
+										<input type="radio" class="custom-control-input"
+											id="customCheck4" name="r_genre" value="락"> <label
+											class="custom-control-label" for="customCheck4">락</label>
+									</div>
+									<div class="custom-control">
+										<input type="radio" class="custom-control-input"
+											id="customCheck5" name="r_genre" value="인디"> <label
+											class="custom-control-label" for="customCheck5">인디</label>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="osahan-area text-center mt-3">
+							<input type="submit" class="btn btn-outline-primary"
+								value="save Changes">
+						</div>
+						<hr>
+					</div>
+				</form>
+			</div>
+			<!-- /.container-fluid -->
+			<!-- Sticky Footer -->
+			<footer class="sticky-footer">
+				<div class="container">
+					<div class="row no-gutters">
+						<div class="col-lg-6 col-sm-6"></div>
+						<div class="col-lg-6 col-sm-6 text-right">
+							<div class="app">
+								<a href="#"><img alt="" src="img/google.png"></a> <a
+									href="#"><img alt="" src="img/apple.png"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+		<!-- /.content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">로그아웃을 원하시면 로그아웃 버튼을 눌러주세요.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="logout">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Owl Carousel -->
+	<script src="vendor/owl-carousel/owl.carousel.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="js/custom.js"></script>
+</body>
+<script>
+function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      document.getElementById('preview').src = e.target.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	  } else {
+	    document.getElementById('preview').src = "";
+	  }
+	}
+
+</script>
+</html>
